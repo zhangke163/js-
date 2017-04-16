@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>canvas动画  粒子运动</title>
+</head>
+<style>
+    canvas{
+        position: absolute;
+        top: 0;left: 0;right: 0;bottom: 0;
+        margin: auto;background: #cccccc;
+        cursor:none;
+    }
+
+</style>
+<body>
+<canvas id="" width="800" height="500"></canvas>
+</body>
+</html>
+
+<script>
+    var canvas=document.querySelector("canvas");
+    var cobj=canvas.getContext("2d");
+
+    function getcolor(){                     //颜色随机
+        return Math.floor(256*Math.random());
+    }
+    function Arc(){                          //封装绘制对象函数
+        this.x=x;
+        this.y=y;
+        this.r=2+3*Math.random();           //粒子大小半径
+        this.color="rgba("+getcolor()+","+getcolor()+","+getcolor()+",1)";  //颜色随机
+        this.speedx=(Math.random()*6-3);      //粒子运动步进值
+        this.speedy=-(Math.random()*2+10);
+        this.zhongli=0.3;                 //控制发射高度
+    }
+    Arc.prototype={
+        draw:function(){                     //绘制对象
+            cobj.save();
+
+            cobj.beginPath();
+            cobj.fillStyle=this.color;
+            cobj.translate(this.x,this.y);
+            cobj.arc(0,0,this.r,0,2*Math.PI);
+
+            cobj.fill();
+            cobj.restore();
+
+        },
+        update:function(){                  //更新对象 对象移动位置
+            this.speedy+=this.zhongli;
+            this.x+=this.speedx;
+            this.y+=this.speedy;
+        }
+    };
+
+    //获取鼠标位置
+    var x=canvas.width/2,y=canvas.height/2;  //初始化鼠标位置
+    canvas.onmousemove=function(e){
+        x=e.offsetX;
+        y=e.offsetY;
+    };
+//   粒子运动
+    var arr=[];
+    var t=setInterval(function(){
+        cobj.clearRect(0,0,canvas.width,canvas.height);
+        var arcobj=new Arc();
+        arr.push(arcobj);                    //将粒子对象存入数组中
+
+        for(var i=0;i<arr.length;i++){     //将数组中的粒子对象循环画出
+            arr[i].draw();
+            arr[i].update();
+
+        }
+        if(arr.length>1000){
+            arr.shift();
+        }
+
+    },10)
+
+
+
+
+
+</script>

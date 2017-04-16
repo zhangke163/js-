@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>鼠标画线 做一个鼠标划线功能</title>
+</head>
+<style>
+    canvas{
+        background: #ccc;
+        /*width: 600px;height: 300px;  !*此处设置相当于放大镜*!*/
+    }
+</style>
+<body>
+
+<canvas width="700" height="600">
+
+</canvas>
+</body>
+<script>
+    //中间划线过程是可见的
+    //move 中间的每一个过程都得画下来
+    //清空画布，在画当前线之前 清空画布
+    //问题来了，上次画好的没有保留
+
+    window.onload=function () {
+//钢笔工具
+//        var canvas=document.getElementsByTagName("canvas")[0];
+//        var cobj=canvas.getContext("2d");
+//        canvas.onmousedown=function(e){
+//            var startx=e.offsetX;
+//            var starty=e.offsetY;
+//            cobj.beginPath();
+//            cobj.moveTo(startx,starty);
+//            canvas.onmousemove=function(e){
+//                var endx=e.offsetX;
+//                var endy=e.offsetY;
+////                cobj.clearRect(0,0,700,600);   //*** 擦除掉上一次移动的这样就不是扇形了
+//              cobj.strokeStyle="red";           //笔的颜色
+//                cobj.lineTo(endx,endy);
+//                cobj.stroke();
+//            };
+//            canvas.onmouseup=function (e) {
+//                canvas.onmousemove=null;
+//                canvas.onmouseup=null;
+//            }
+//        };
+//直线工具
+//        var canvas=document.getElementsByTagName("canvas")[0];
+//        var cobj=canvas.getContext("2d");
+//        var arr=[];
+//        canvas.onmousedown=function(e){
+//            var x=e.offsetX;
+//            var y=e.offsetY;
+//            canvas.onmousemove=function(e){
+//                var endx=e.offsetX;
+//                var endy=e.offsetY;
+//                cobj.clearRect(0,0,700,600);   //*** 擦除掉上一次移动的这样就不是扇形了
+//                if(arr.length>0){
+//                    cobj.putImageData(arr[arr.length-1],0,0);
+//                }
+//                cobj.beginPath();
+//                cobj.moveTo(x,y);
+//                cobj.lineTo(endx,endy);
+//                cobj.stroke();
+//            };
+//            document.onmouseup=function () {
+//                var data=cobj.getImageData(0,0,700,600);
+//                arr.push(data);
+//                canvas.onmousemove=null;
+//                document.onmouseup=null;
+//            }
+//        };
+//        后退按钮
+
+
+//矩形工具************************************/
+        var canvas=document.getElementsByTagName("canvas")[0];
+        var cobj=canvas.getContext("2d");
+        var arr=[];
+        canvas.onmousedown=function(e){
+            var x=e.offsetX;
+            var y=e.offsetY;
+            canvas.onmousemove=function(e){
+                var endx=e.offsetX;
+                var endy=e.offsetY;
+                cobj.clearRect(0,0,700,600);   //*** 擦除掉上一次移动的这样就不是扇形了
+                if(arr.length>0){
+                    cobj.putImageData(arr[arr.length-1],0,0);
+                }
+                cobj.beginPath();
+                cobj.moveTo(x,y);
+                cobj.lineTo(endx-x,endy-y);
+                cobj.stroke();
+            };
+            document.onmouseup=function () {
+                var data=cobj.getImageData(0,0,700,600);
+                arr.push(data);
+                canvas.onmousemove=null;
+                document.onmouseup=null;
+            }
+        };
+
+
+
+
+
+
+    }
+</script>
+</html>

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>彩色喷花效果</title>
+	<style>
+		canvas{
+			/*background: #ccc;*/
+		}
+	</style>
+	<script>
+	window.onload=function(){
+		var canvas=document.querySelector("canvas");
+		var context=canvas.getContext("2d");
+		function arc(){
+			this.x=0;
+			this.y=0;
+			this.r=3+4*Math.random();
+			this.color="rgb("+parseInt(255*Math.random())+","+parseInt(255*Math.random())+","+parseInt(255*Math.random())+")";
+			this.speedx=10*Math.random()-5;
+			this.speedy=-6;
+			this.zhongli=0.4;
+		}
+		arc.prototype={
+				draw:function(){
+					context.save();
+					context.beginPath();
+					context.translate(200,200);
+					context.fillStyle=this.color;
+					context.arc(this.x,this.y,this.r,0,Math.PI*2,true);
+					context.fill();
+					context.restore();
+				},
+				update:function(){
+					this.speedy+=this.zhongli;
+					this.x+=this.speedx;
+					this.y+=this.speedy;
+				}
+			}
+		
+		var arr=[];
+		var t=setInterval(function(){
+			context.clearRect(0,0,canvas.width,canvas.height);
+			var arc1=new arc();
+			arr.push(arc1);
+			for(var i=0;i<arr.length;i++){
+				arr[i].draw();
+				arr[i].update();
+			}
+			
+		},30);
+	}
+	</script>
+</head>
+<body>
+	<canvas width="500" height="500"></canvas>
+</body>
+</html>
