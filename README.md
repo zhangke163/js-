@@ -1,2 +1,2 @@
 # js-funny-demo
-htmlpreview.github.io/?2.html
+https://htmlpreview.github.io/
